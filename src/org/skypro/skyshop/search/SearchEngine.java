@@ -35,4 +35,21 @@ public class SearchEngine {
         }
         return false;
     }
+
+    public Searchable findMostSuitableObject(String search) throws BestResultNotFoundException {
+        Searchable mostSuitable = null;
+        int max = 0;
+        for (int i = 0; i < searchables.length; i++) { 
+            max = searchables[i].getSearchTerm(searchables[i].searchTerm(), search);
+            if (max > 0) {
+                mostSuitable = searchables[i];
+            }
+        }
+
+        if (mostSuitable == null) {
+            throw new BestResultNotFoundException("Ничего не найдено");
+        }
+
+        return mostSuitable;
+    }
 }
