@@ -1,42 +1,63 @@
 package org.skypro.skyshop.basket;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.skypro.skyshop.product.Product;
 
 public class ProductBasket {
-    private Product[] basket;
+    private List<Product> basket;
 
     public ProductBasket() {
-        basket = new Product[7];
+        basket = new LinkedList<>();
     }
 
     public void addProduct(Product product) {
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] == null) {
-                basket[i] = product;
-                break;
+        basket.add(product);
+    }
+
+    public List<Product> deleteProduct(String name) {
+        List<Product> deletedProducts = new LinkedList<>();
+        Iterator<Product> basketIterator = basket.iterator();
+        name = name.toLowerCase();
+
+        while (basketIterator.hasNext()) {
+            Product p = basketIterator.next();
+            if (p != null && p.getProductName().toLowerCase().equals(name)) {
+               deletedProducts.add(p);
+               basketIterator.remove();
             }
         }
+
+        return deletedProducts;
     }
 
     public int getBasketPrice() {
         int sum = 0;
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] != null) {
-                sum += basket[i].getProductPrice();
+        Iterator<Product> basketIterator = basket.iterator();
+        
+        while (basketIterator.hasNext()) {
+            Product p = basketIterator.next();
+            if (p != null) {
+                sum += p.getProductPrice();
             }
         }
         return sum;
     }
 
     public void printBasket() {
+        Iterator<Product> basketIterator = basket.iterator();
+
         if (checkBasketForNull()) {
             System.out.println("Корзина пуста.");
             return;
         }
 
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] != null) {
-                System.out.println(basket[i]);
+        while (basketIterator.hasNext()) {
+            Product p = basketIterator.next();
+            if (p != null) {
+                System.out.println(p.toString());
             }
         }
 
@@ -46,10 +67,13 @@ public class ProductBasket {
     }
 
     public boolean checkByName(String name) { 
-        if (basket.length == 0) { return false; }
+        Iterator<Product> basketIterator = basket.iterator();
 
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] != null && basket[i].getProductName().toLowerCase().equals(name.toLowerCase())) {
+        if (basket.size()== 0) { return false; }
+
+        while(basketIterator.hasNext()) {
+            Product p = basketIterator.next();
+            if (p != null && p.getProductName().toLowerCase().equals(name.toLowerCase())) {
                 return true;
             }
         }
@@ -57,16 +81,16 @@ public class ProductBasket {
     }
 
     public void eraseBasket() {
-        for (int i = 0; i < basket.length; i++) {
-            basket[i] = null;
-        }
+        basket.clear();
     }
 
     private int getSpecialProductCount() { 
         int count = 0;
+        Iterator<Product> basketIterator = basket.iterator();
 
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] != null && (basket[i].isSpecial())) {
+        while(basketIterator.hasNext()) {
+            Product p = basketIterator.next();
+            if (p != null && p.isSpecial()) {
                 count++;
             }
         }
@@ -75,12 +99,13 @@ public class ProductBasket {
 
     private boolean checkBasketForNull() {
         boolean result = false;
+        Iterator<Product> basketIterator = basket.iterator();
 
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] == null) {
+        while(basketIterator.hasNext()) {
+            Product p = basketIterator.next();
+            if (p == null) {
                 result = true;
-            }
-            else {
+            } else {
                 result = false;
                 break;
             }
