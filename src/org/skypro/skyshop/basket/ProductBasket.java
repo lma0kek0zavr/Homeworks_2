@@ -39,8 +39,11 @@ public class ProductBasket {
         
         while (basketIterator.hasNext()) {
             Product p = basketIterator.next();
-            sum += p.getProductPrice();
+            if (p != null) {
+                sum += p.getProductPrice();
+            }
         }
+
         return sum;
     }
 
@@ -52,6 +55,7 @@ public class ProductBasket {
             return;
         }
 
+        
         while (basketIterator.hasNext()) {
             Product p = basketIterator.next();
             System.out.println(p.toString());
@@ -64,6 +68,8 @@ public class ProductBasket {
 
     public boolean checkByName(String name) { 
         Iterator<Product> basketIterator = basket.iterator();
+
+        if (basket.size()== 0) { return false; }
 
         if (basket.size()== 0) { return false; }
 
@@ -92,4 +98,5 @@ public class ProductBasket {
         }
         return count;
     }
+
 }
