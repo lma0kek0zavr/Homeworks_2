@@ -20,11 +20,11 @@ public class ProductBasket {
     public List<Product> deleteProduct(String name) {
         List<Product> deletedProducts = new LinkedList<>();
         Iterator<Product> basketIterator = basket.iterator();
-        name = name.toLowerCase();
+        String productName = name.toLowerCase();
 
         while (basketIterator.hasNext()) {
             Product p = basketIterator.next();
-            if (p != null && p.getProductName().toLowerCase().equals(name)) {
+            if (p.getProductName().toLowerCase().equals(productName)) {
                deletedProducts.add(p);
                basketIterator.remove();
             }
@@ -39,9 +39,7 @@ public class ProductBasket {
         
         while (basketIterator.hasNext()) {
             Product p = basketIterator.next();
-            if (p != null) {
-                sum += p.getProductPrice();
-            }
+            sum += p.getProductPrice();
         }
         return sum;
     }
@@ -49,16 +47,14 @@ public class ProductBasket {
     public void printBasket() {
         Iterator<Product> basketIterator = basket.iterator();
 
-        if (checkBasketForNull()) {
+        if (basket.size() == 0) {
             System.out.println("Корзина пуста.");
             return;
         }
 
         while (basketIterator.hasNext()) {
             Product p = basketIterator.next();
-            if (p != null) {
-                System.out.println(p.toString());
-            }
+            System.out.println(p.toString());
         }
 
         System.out.println("Итого: " + getBasketPrice());
@@ -73,7 +69,7 @@ public class ProductBasket {
 
         while(basketIterator.hasNext()) {
             Product p = basketIterator.next();
-            if (p != null && p.getProductName().toLowerCase().equals(name.toLowerCase())) {
+            if (p.getProductName().toLowerCase().equals(name.toLowerCase())) {
                 return true;
             }
         }
@@ -95,21 +91,5 @@ public class ProductBasket {
             }
         }
         return count;
-    }
-
-    private boolean checkBasketForNull() {
-        boolean result = false;
-        Iterator<Product> basketIterator = basket.iterator();
-
-        while(basketIterator.hasNext()) {
-            Product p = basketIterator.next();
-            if (p == null) {
-                result = true;
-            } else {
-                result = false;
-                break;
-            }
-        }
-        return result;
     }
 }
