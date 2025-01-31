@@ -1,25 +1,25 @@
 package org.skypro.skyshop.search;
 
-public class SearchEngine {
-    private Searchable[] searchables;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-    public SearchEngine(int size) { 
-        searchables = new Searchable[size];
+public class SearchEngine {
+    private List<Searchable> searchables;
+
+    public SearchEngine() { 
+        searchables = new ArrayList<>();
     }
 
-    public Searchable[] search(String... query) { 
-        Searchable[] found = new Searchable[5];
-        int count = 0;
+    public List<Searchable> search(String query) { 
+        List<Searchable> found = new ArrayList<>();
+        Iterator<Searchable> iterator = searchables.iterator();
 
-        for (int i = 0; i < searchables.length; i++) { 
-            for (int j = 0; j < query.length; j++) {
-                if (count == 5) { break; }
-                if (searchables[i] != null) {
-                    if (searchables[i].searchTerm().toLowerCase().contains(query[j].toLowerCase())) {
-                        found[count] = searchables[i];
-                        count++;
-                    }
-                }
+        while (iterator.hasNext()) { 
+            Searchable searchable = iterator.next();
+            int count = searchable.getSearchTerm(searchable.searchTerm(), query);
+            if (count > 0) {
+                found.add(searchable);
             }
         }
 
@@ -27,22 +27,18 @@ public class SearchEngine {
     }
 
     public boolean add(Searchable searchable) { 
-        for (int i = 0; i < searchables.length; i++) {
-            if (searchables[i] == null) {
-                searchables[i] = searchable;
-                return true;
-            }
-        }
-        return false;
+        return searchables.add(searchable);
     }
 
     public Searchable findMostSuitableObject(String search) throws BestResultNotFoundException {
         Searchable mostSuitable = null;
         int max = 0;
-        for (int i = 0; i < searchables.length; i++) { 
-            max = searchables[i].getSearchTerm(searchables[i].searchTerm(), search);
+        Iterator<Searchable> iterator = searchables.iterator();
+        while (iterator.hasNext()) {
+            Searchable searchables = iterator.next();
+            max = searchables.getSearchTerm(searchables.searchTerm(), search);
             if (max > 0) {
-                mostSuitable = searchables[i];
+                mostSuitable = searchables;
             }
         }
 
