@@ -1,7 +1,7 @@
 package org.skypro.skyshop.basket;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.skypro.skyshop.product.Product;
@@ -10,7 +10,7 @@ public class ProductBasket {
     private List<Product> basket;
 
     public ProductBasket() {
-        basket = new LinkedList<>();
+        basket = new ArrayList<>();
     }
 
     public void addProduct(Product product) {
@@ -18,15 +18,15 @@ public class ProductBasket {
     }
 
     public List<Product> deleteProduct(String name) {
-        List<Product> deletedProducts = new LinkedList<>();
-        Iterator<Product> basketIterator = basket.iterator();
+        List<Product> deletedProducts = new ArrayList<>();
+        Iterator<Product> iterator = basket.iterator();
         String productName = name.toLowerCase();
 
-        while (basketIterator.hasNext()) {
-            Product p = basketIterator.next();
+        while (iterator.hasNext()) {
+            Product p = iterator.next();
             if (p.getProductName().toLowerCase().equals(productName)) {
                deletedProducts.add(p);
-               basketIterator.remove();
+               iterator.remove();
             }
         }
 
@@ -35,29 +35,22 @@ public class ProductBasket {
 
     public int getBasketPrice() {
         int sum = 0;
-        Iterator<Product> basketIterator = basket.iterator();
         
-        while (basketIterator.hasNext()) {
-            Product p = basketIterator.next();
-            if (p != null) {
-                sum += p.getProductPrice();
-            }
+        for (Product p : basket) {
+            sum += p.getProductPrice();
         }
 
         return sum;
     }
 
     public void printBasket() {
-        Iterator<Product> basketIterator = basket.iterator();
-
         if (basket.size() == 0) {
             System.out.println("Корзина пуста.");
             return;
         }
 
         
-        while (basketIterator.hasNext()) {
-            Product p = basketIterator.next();
+        for (Product p : basket) {
             System.out.println(p.toString());
         }
 
@@ -67,14 +60,9 @@ public class ProductBasket {
     }
 
     public boolean checkByName(String name) { 
-        Iterator<Product> basketIterator = basket.iterator();
-
         if (basket.size()== 0) { return false; }
 
-        if (basket.size()== 0) { return false; }
-
-        while(basketIterator.hasNext()) {
-            Product p = basketIterator.next();
+        for (Product p : basket) {
             if (p.getProductName().toLowerCase().equals(name.toLowerCase())) {
                 return true;
             }
@@ -88,15 +76,12 @@ public class ProductBasket {
 
     private int getSpecialProductCount() { 
         int count = 0;
-        Iterator<Product> basketIterator = basket.iterator();
 
-        while(basketIterator.hasNext()) {
-            Product p = basketIterator.next();
-            if (p != null && p.isSpecial()) {
+        for (Product p : basket) {
+            if (p.isSpecial()) {
                 count++;
             }
         }
         return count;
     }
-
 }

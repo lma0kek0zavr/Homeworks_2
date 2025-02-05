@@ -1,6 +1,6 @@
 package org.skypro.skyshop;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.skypro.skyshop.basket.ProductBasket;
@@ -29,7 +29,7 @@ public class App {
 
         basket.printBasket();
 
-        List<Product> deletedProducts = new LinkedList<>();
+        List<Product> deletedProducts = new ArrayList<>();
 
         deletedProducts = basket.deleteProduct("Хлеб");
 
