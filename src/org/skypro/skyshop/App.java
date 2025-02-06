@@ -1,7 +1,8 @@
 package org.skypro.skyshop;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.Product;
@@ -17,6 +18,9 @@ public class App {
         Product product4 = new SimpleProduct("Яблоки", 400);
         Product product5 = new SimpleProduct("Хлеб рисовый", 500);
         Product product6 = new SimpleProduct("Хлеб черный", 600);
+        Product product10 = new SimpleProduct("Хлеб", 150);
+        Product product11 = new SimpleProduct("Хлеб", 120);
+        Product product12 = new SimpleProduct("Хлеб", 200);
 
         ProductBasket basket = new ProductBasket();
 
@@ -26,12 +30,15 @@ public class App {
         basket.addProduct(product4);
         basket.addProduct(product5);
         basket.addProduct(product6);
+        basket.addProduct(product10);
+        basket.addProduct(product11);
+        basket.addProduct(product12);
 
         basket.printBasket();
 
-        List<Product> deletedProducts = new LinkedList<>();
+        List<Product> deletedProducts = new ArrayList<>();
 
-        deletedProducts = basket.deleteProduct("Хлеб");
+        deletedProducts = basket.deleteProduct("хлеб черный");
 
         System.out.println("---------------------------------");
 
@@ -59,19 +66,32 @@ public class App {
         engine.add(product4);
         engine.add(product5);
         engine.add(product6);
+        engine.add(product10);
+        engine.add(product11);
+        engine.add(product12);
 
-        List<Searchable> found = engine.search("хлеб");
+        Map<String, Searchable> found = engine.search("хлеб");
 
         print(found);
     }
 
-    static void print(List list) {
-        if (list.size() == 0) { 
+    static void print(List<?> list) {
+        if (list.isEmpty()) { 
             System.out.println("Список пустой");
         }
 
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
+        }
+    }
+
+    static void print(Map<?, ?> map) {
+        if (map.isEmpty()) { 
+            System.out.println("Список пустой");
+        }
+
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " - " + entry.getValue());
         }
     }
 }
