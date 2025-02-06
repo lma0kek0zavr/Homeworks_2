@@ -49,7 +49,6 @@ public class ProductBasket {
             for (Product p : values) {
                 sum += p.getProductPrice();
             }
-        }
 
         return sum;
     }
@@ -95,6 +94,16 @@ public class ProductBasket {
     private int getSpecialProductCount() { 
         int count = 0;
         
+        for (Map.Entry<String, List<Product>> entry : basket.entrySet()) { 
+            List<Product> values = entry.getValue();
+
+            for (Product p : values) {
+                if (p.isSpecial()) {
+                    count++;
+                }
+            }
+        }
+
         return count;
     }
 }
