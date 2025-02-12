@@ -49,6 +49,7 @@ public class ProductBasket {
             for (Product p : values) {
                 sum += p.getProductPrice();
             }
+        }
 
         return sum;
     }
