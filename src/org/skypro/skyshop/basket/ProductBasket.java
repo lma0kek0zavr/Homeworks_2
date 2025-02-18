@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.skypro.skyshop.product.Product;
 
@@ -23,19 +24,15 @@ public class ProductBasket {
     }
 
     public List<Product> deleteProduct(String name) {
-        List<Product> deletedProducts = new ArrayList<>();
+        List<Product> deletedProducts;
         String productName = name.toLowerCase();
         
-        for (Map.Entry<String, List<Product>> entry : basket.entrySet()) { 
-            List<Product> values = entry.getValue();
+        deletedProducts = basket.values().stream()
+            .flatMap(List::stream)
+            .filter(p -> p.getProductName().toLowerCase().equals(productName))
+            .collect(Collectors.toCollection(ArrayList::new));
 
-            for (Product p : values) {
-                if (p.getProductName().equals(productName)) {
-                    deletedProducts.add(p);
-                    values.remove(p);
-                }
-            }
-        }
+        basket.values().removeIf(list -> list.stream().anyMatch(p -> p.getProductName().toLowerCase().equals(productName)));
         
         return deletedProducts;
     }
@@ -43,13 +40,10 @@ public class ProductBasket {
     public int getBasketPrice() {
         int sum = 0;
         
-        for (Map.Entry<String, List<Product>> entry : basket.entrySet()) { 
-            List<Product> values = entry.getValue();
-
-            for (Product p : values) {
-                sum += p.getProductPrice();
-            }
-        }
+        sum = basket.values().stream()
+            .flatMap(List::stream)
+            .mapToInt(Product::getProductPrice)
+            .sum();
 
         return sum;
     }
@@ -60,16 +54,9 @@ public class ProductBasket {
             return;
         }
         
-        for (Map.Entry<String, List<Product>> entry : basket.entrySet()) { 
-            String key = entry.getKey();
-            List<Product> values = entry.getValue();
-
-            System.out.println(key + ": \n");
-            for (Product p : values) {
-                System.out.println(p.toString());
-            }
-            System.out.println("----------");
-        }
+        basket.entrySet().stream()
+            .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+            
 
         System.out.println("Итого: " + getBasketPrice());
 
@@ -77,33 +64,31 @@ public class ProductBasket {
     }
 
     public boolean checkByName(String name) { 
+        boolean isContain = false;
+        String productName = name.toLowerCase();
+
         if (basket.isEmpty()) { 
             return false; 
         }
 
-        if (basket.containsValue(basket.get(name))) { 
-            return true; 
-        }
+        isContain = basket.values().stream()
+            .flatMap(List::stream)
+            .anyMatch(p -> p.getProductName().toLowerCase().equals(productName));
 
-        return false;
+        return isContain;
     }
 
     public void eraseBasket() {
         basket.clear();
     }
 
-    private int getSpecialProductCount() { 
-        int count = 0;
+    private long getSpecialProductCount() { 
+        long count = 0;
         
-        for (Map.Entry<String, List<Product>> entry : basket.entrySet()) { 
-            List<Product> values = entry.getValue();
-
-            for (Product p : values) {
-                if (p.isSpecial()) {
-                    count++;
-                }
-            }
-        }
+        count = basket.values().stream()
+            .flatMap(List::stream)
+            .filter(Product::isSpecial)
+            .count();
 
         return count;
     }
