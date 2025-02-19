@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.skypro.skyshop.product.Product;
 
@@ -24,28 +23,14 @@ public class ProductBasket {
     }
 
     public List<Product> deleteProduct(String name) {
-        List<Product> deletedProducts;
-        String productName = name.toLowerCase();
-        
-        deletedProducts = basket.values().stream()
-            .flatMap(List::stream)
-            .filter(p -> p.getProductName().toLowerCase().equals(productName))
-            .collect(Collectors.toCollection(ArrayList::new));
-
-        basket.values().removeIf(list -> list.stream().anyMatch(p -> p.getProductName().toLowerCase().equals(productName)));
-        
-        return deletedProducts;
+        return basket.remove(name);
     }
 
     public int getBasketPrice() {
-        int sum = 0;
-        
-        sum = basket.values().stream()
+        return basket.values().stream()
             .flatMap(List::stream)
             .mapToInt(Product::getProductPrice)
             .sum();
-
-        return sum;
     }
 
     public void printBasket() {

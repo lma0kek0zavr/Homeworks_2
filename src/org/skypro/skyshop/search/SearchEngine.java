@@ -15,13 +15,9 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String... query) { 
-        Set<Searchable> found;
-
-        found = searchables.stream()
+        return searchables.stream()
             .filter(s -> Arrays.stream(query).anyMatch(q -> s.getSearchTerm(s.searchTerm(), q) > 0))
             .collect(Collectors.toCollection(TreeSet::new));
-
-        return found;
     }
 
     public boolean add(Searchable searchable) { 

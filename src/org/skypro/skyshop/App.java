@@ -13,27 +13,27 @@ import org.skypro.skyshop.search.Searchable;
 
 public class App {
     public static void main(String[] args) {
-        // Article article1 = new Article("Хлеб черный", "Лучший хлеб на свете");
-        // Article article2 = new Article("Хлеб рисовый", "Тот самый рисовый");
-        // Article article3 = new Article("Молоко", "Свежайщее");
-        // Article article4 = new Article("Сыр", "Самый мягкий и изысканный сыр на свете");
-        // Article article5 = new Article("Молоко", "Самое свежее молоко");
-        // Article article6 = new Article("Сыр", "Тот самый пармезан");
-        // Article article7 = new Article("Сыр", "Любимая всеми дружба");
+        Article article1 = new Article("Хлеб черный", "Лучший хлеб на свете");
+        Article article2 = new Article("Хлеб рисовый", "Тот самый рисовый");
+        Article article3 = new Article("Молоко", "Свежайщее");
+        Article article4 = new Article("Сыр", "Самый мягкий и изысканный сыр на свете");
+        Article article5 = new Article("Молоко", "Самое свежее молоко");
+        Article article6 = new Article("Сыр", "Тот самый пармезан");
+        Article article7 = new Article("Сыр", "Любимая всеми дружба");
 
-        // SearchEngine engine = new SearchEngine();
+        SearchEngine engine = new SearchEngine();
 
-        // engine.add(article1);
-        // engine.add(article2);
-        // engine.add(article3);
-        // engine.add(article4);
-        // engine.add(article5);
-        // engine.add(article6);
-        // engine.add(article7);
+        engine.add(article1);
+        engine.add(article2);
+        engine.add(article3);
+        engine.add(article4);
+        engine.add(article5);
+        engine.add(article6);
+        engine.add(article7);
 
-        // Set<Searchable> found = engine.search("сыр", "хлеб", "молоко");
+        Set<Searchable> found = engine.search("сыр", "хлеб", "молоко");
 
-        // print(found);
+        print(found);
 
         Product product1 = new SimpleProduct("Хлеб черный", 100);
         Product product2 = new SimpleProduct("Хлеб рисовый", 200);
