@@ -49,18 +49,15 @@ public class ProductBasket {
     }
 
     public boolean checkByName(String name) { 
-        boolean isContain = false;
         String productName = name.toLowerCase();
 
         if (basket.isEmpty()) { 
             return false; 
         }
 
-        isContain = basket.values().stream()
+        return basket.values().stream()
             .flatMap(List::stream)
             .anyMatch(p -> p.getProductName().toLowerCase().equals(productName));
-
-        return isContain;
     }
 
     public void eraseBasket() {
