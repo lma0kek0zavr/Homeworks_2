@@ -1,9 +1,11 @@
 package org.skypro.skyshop.search;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
     private Set<Searchable> searchables;
@@ -13,17 +15,9 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String... query) { 
-        Set<Searchable> found = new TreeSet<>();
-
-        for (Searchable searchable : searchables) {
-            for (String q : query) {
-                if (searchable.getSearchTerm(searchable.searchTerm(), q) > 0) {
-                    found.add(searchable);
-                }
-            }
-        }
-
-        return found;
+        return searchables.stream()
+            .filter(s -> Arrays.stream(query).anyMatch(q -> s.getSearchTerm(s.searchTerm(), q) > 0))
+            .collect(Collectors.toCollection(TreeSet::new));
     }
 
     public boolean add(Searchable searchable) { 

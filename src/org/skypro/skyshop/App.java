@@ -1,7 +1,12 @@
 package org.skypro.skyshop;
 
+import java.util.List;
 import java.util.Set;
 
+import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Article;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
@@ -29,6 +34,38 @@ public class App {
         Set<Searchable> found = engine.search("сыр", "хлеб", "молоко");
 
         print(found);
+
+        Product product1 = new SimpleProduct("Хлеб черный", 100);
+        Product product2 = new SimpleProduct("Хлеб рисовый", 200);
+        Product product3 = new SimpleProduct("Молоко", 150);
+        Product product4 = new SimpleProduct("Сыр", 400);
+        Product product5 = new SimpleProduct("Сыр", 500);
+        Product product6 = new FixPriceProduct("Молоко");
+
+        ProductBasket basket = new ProductBasket();
+
+        basket.addProduct(product1);
+        basket.addProduct(product2);
+        basket.addProduct(product3);
+        basket.addProduct(product4);
+        basket.addProduct(product5);
+        basket.addProduct(product6);
+
+        List<Product> products = basket.deleteProduct("Хлеб черный");
+
+        print(products);
+
+        basket.printBasket();
+    }
+
+    static void print(List<?> list) {
+        if (list.isEmpty()) { 
+            System.out.println("Список пустой");
+        }
+
+        for (Object s : list) {
+            System.out.println(s);
+        }
     }
 
     static void print(Set<?> set) {
